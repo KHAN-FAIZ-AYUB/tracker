@@ -1,6 +1,7 @@
 const express = require("express");
 const next = require("next");
 const bodyParser = require("body-parser");
+var cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_DEV !== "production"; //true false
 const nextApp = next({ dev });
@@ -15,6 +16,7 @@ nextApp.prepare().then(() => {
     process.env.DB_URI
   );
   const app = express();
+  app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
