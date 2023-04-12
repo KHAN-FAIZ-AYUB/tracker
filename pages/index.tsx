@@ -13,12 +13,12 @@ export default function Login() {
 
   const router = useRouter();
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e:any) => {
     setEmailError("");
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e:any) => {
     setPasswordError("");
     setPassword(e.target.value);
   };
