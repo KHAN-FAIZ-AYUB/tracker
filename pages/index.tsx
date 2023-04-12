@@ -31,7 +31,7 @@ export default function Login() {
       return setPasswordError("Enter password");
     }
     setLoading(true);
-    const response = await axios.post("http://localhost:3000/api/user/login", {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
       email,
       password,
     });
