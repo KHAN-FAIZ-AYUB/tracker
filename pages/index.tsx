@@ -43,7 +43,7 @@ export default function Login() {
       localStorage.setItem("token", response.data?.token);
       router.push("/home");
       
-    } catch (error) {
+    } catch (error:any) {
       setLoading(false); 
       setError(error.response?.data?.error)
     }
