@@ -2,10 +2,13 @@ import styles from "../../styles/Login.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { ColorRing } from "react-loader-spinner";
 
 export default function Home() {
   const router = useRouter();
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -18,11 +21,17 @@ export default function Home() {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    const response = await axios.post(
-      "http://localhost:3000/api/notification",
-      {},
-      config
-    );
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/notification`,
+        {},
+        config
+      );
+      setLoading(false);
+    } catch (error:any) {
+      setLoading(false); 
+      setError(error.response?.data?.error)
+    }
   };
 
   const handleLogout = () => {
@@ -62,6 +71,7 @@ export default function Home() {
         }}
       >
         <div>
+          {error && <p className={styles.error}>{error}</p>}
           <input
             type="button"
             name="submit"
@@ -70,6 +80,17 @@ export default function Home() {
             className={styles.btn}
           />
         </div>
+      </div>
+      <div className={`${styles.full_screen_loader} ${!loading ? styles.hidden : ''}` }>
+      <ColorRing
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="blocks-loading"
+        wrapperStyle={{}}
+        wrapperClass="blocks-wrapper"
+        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      />
       </div>
     </div>
   );
